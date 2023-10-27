@@ -1,0 +1,18 @@
+{
+    "name": "cypress-stubs",
+    "private": true,
+    "version": "0.0.0",
+    "type": "module",
+    "scripts": {
+        "start": "vite",
+        "build": "vite build",
+        "preview": "vite preview",
+        "e2e:watch": "npx cypress open"
+    },
+    "devDependencies": {
+        "vite": "^4.1.0"
+    },
+    "dependencies": {
+        "cypress": "^12.5.1"
+    }
+}

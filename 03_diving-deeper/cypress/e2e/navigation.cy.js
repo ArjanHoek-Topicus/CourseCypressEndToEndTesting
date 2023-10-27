@@ -2,8 +2,12 @@
 
 describe("page navigation", () => {
     it("should navigate between pages", () => {
-        cy.visit("http://localhost:5173/")
-            .get('[data-cy="header-about-link"]')
+        cy.visit("/")
+            .task("test", "testText")
+            .then((testValue) => {
+                expect(testValue).to.equal("testText");
+            })
+            .getByData("header-about-link")
             .click()
             .location("pathname")
             .should("equal", "/about")
@@ -13,7 +17,7 @@ describe("page navigation", () => {
             .go("forward")
             .location("pathname")
             .should("equal", "/about")
-            .get('[data-cy="header-home-link"]')
+            .getByData("header-home-link")
             .click()
             .location("pathname")
             .should("equal", "/");

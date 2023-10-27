@@ -1,22 +1,18 @@
 /// <reference types="Cypress" />
 
 describe("contact form", () => {
+    beforeEach(() => {
+        cy.visit("/").clickElement('[data-cy="header-about-link"]');
+    });
+
     it("should submit the form by clicking submit button", () => {
-        cy.visit("http://localhost:5173/")
-            .get('[data-cy="header-about-link"]')
-            .click()
-            .get('[data-cy="contact-input-message"]')
-            .type("This is a test message")
-            .get('[data-cy="contact-input-name"]')
-            .type("John Doe")
-            .get('[data-cy="contact-input-email"]')
-            .type("john@doe.com")
-            .get('[data-cy="contact-btn-submit"]')
-            .should((el) => {
-                expect(el).enabled;
-                expect(el).text("Send Message");
-            })
-            .click()
+        cy.typeInElement(
+            '[data-cy="contact-input-message"]',
+            "This is a test message"
+        )
+            .typeInElement('[data-cy="contact-input-name"]', "John Doe")
+            .typeInElement('[data-cy="contact-input-email"]', "john@doe.com")
+            .clickElement('[data-cy="contact-btn-submit"]')
             .should((el) => {
                 expect(el).disabled;
                 expect(el).text("Sending...");
@@ -29,15 +25,15 @@ describe("contact form", () => {
     });
 
     it("should submit the form by hitting enter", () => {
-        cy.visit("http://localhost:5173/")
-            .get('[data-cy="header-about-link"]')
-            .click()
-            .get('[data-cy="contact-input-message"]')
-            .type("This is a test message")
-            .get('[data-cy="contact-input-name"]')
-            .type("John Doe")
-            .get('[data-cy="contact-input-email"]')
-            .type("john@doe.com{enter}")
+        cy.typeInElement(
+            '[data-cy="contact-input-message"]',
+            "This is a test message"
+        )
+            .typeInElement('[data-cy="contact-input-name"]', "John Doe")
+            .typeInElement(
+                '[data-cy="contact-input-email"]',
+                "john@doe.com{enter}"
+            )
             .get('[data-cy="contact-btn-submit"]')
             .should((el) => {
                 expect(el).disabled;
@@ -51,10 +47,7 @@ describe("contact form", () => {
     });
 
     it("should display input field as invalid", () => {
-        cy.visit("http://localhost:5173/")
-            .get('[data-cy="header-about-link"]')
-            .click()
-            .get('[data-cy="contact-input-message"]')
+        cy.get('[data-cy="contact-input-message"]')
             .as("msg")
             .focus()
             .get('[data-cy="contact-input-name"]')
@@ -66,8 +59,7 @@ describe("contact form", () => {
             .parent()
             .should("have.attr", "class")
             .and("match", /invalid/)
-            .get('[data-cy="contact-btn-submit"]')
-            .click()
+            .clickElement('[data-cy="contact-btn-submit"]')
             .then((el) => {
                 expect(el).not.disabled;
                 expect(el).not.text("Sending...");

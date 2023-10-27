@@ -23,18 +23,3 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
-
-Cypress.Commands.add("clickElement", (selector) => {
-    cy.get(selector).click();
-});
-
-Cypress.Commands.add("typeInElement", (selector, text) => {
-    cy.get(selector).type(text);
-});
-
-Cypress.Commands.addQuery("getByData", (value) => {
-    const getFn = cy.now("get", `[data-cy=${value}]`);
-    return () => {
-        return getFn();
-    };
-});
